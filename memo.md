@@ -192,4 +192,6 @@ const customJestConfig = {
 }
 module.exports = createJestConfig(customJestConfig)
 ```
+npm script 追加
+```json
 
