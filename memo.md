@@ -67,5 +67,22 @@ npx tailwindcss init -p
 ```
 postcss.config.js
 tailwind.config.js
+が作成される
 
+tailwind.config.jsのcontentに追記
+```js
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: ["./src/**/*.{js,ts,jsx,tsx}"],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
+```
+
+src/styles/globals.cssに追記
+```css
+
+```
 
