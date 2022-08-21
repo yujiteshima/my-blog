@@ -171,3 +171,25 @@ npm script 追加
 }
 ```
 
+テスト環境構築
+```bash
+npm install --save-dev @testing-library/jest-dom @testing-library/react jest jest-environment-jsdom
+```
+jest.setup.jsとjest.config.jsをプロジェクトルートに追加
+```js
+//jest.setup.js
+import '@testing-library/jest-dom/extend-expect'
+```
+```js
+//jext.config.js
+const nextJest = require('next/jest')
+const createJestConfig = nextJest({ dir: './' })
+const customJestConfig = {
+    testPathIgnorePatterns: ['<rootDir>/.next/', '<rootDir>/node_modules/'],
+    setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+    moduleDirectories: ['node_modules', '<rootDir>/src'],
+    testEnvironment: 'jsdom',
+}
+module.exports = createJestConfig(customJestConfig)
+```
+
