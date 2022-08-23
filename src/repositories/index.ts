@@ -1,13 +1,6 @@
 import axios from 'axios';
-type PostsData = {
-  metadata: {
-    title: string;
-    date: string;
-    description: string;
-    image: string;
-  };
-  content: string;
-};
+import type { PostsData } from '../../types';
+
 export const loadPosts = async (): Promise<Array<PostsData>> => {
   const res = await axios(
     'https://storage.googleapis.com/simple-git-test.appspot.com/blogData.txt',

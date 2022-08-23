@@ -1,8 +1,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { FC } from 'react';
 import type { PostsData } from '../../types';
 
-const PostCard = (post: PostsData) => {
+const PostCard: FC<{ key: string; post: PostsData }> = ({ post }) => {
   return (
     <Link href={`/posts/${post.metadata.slug}`}>
       <a className="flex flex-row">
@@ -23,3 +24,5 @@ const PostCard = (post: PostsData) => {
     </Link>
   );
 };
+
+export default PostCard;
