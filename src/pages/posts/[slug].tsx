@@ -116,7 +116,7 @@ const Post = ({ frontMatter, content }: PostProps): JSX.Element => {
       <div className="prose prose-lg max-w-none">
         <div className="border">
           <Image
-            src={`/${frontMatter.image}`}
+            src={`/icon/${frontMatter.image}`}
             width={1200}
             height={700}
             alt={frontMatter.title}

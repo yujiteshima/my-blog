@@ -10,7 +10,7 @@ const PostCard: FC<{ key: string; post: PostsData }> = ({ post }) => {
         <div className="border flex items-center">
           <Image
             className=""
-            src={`/${post.metadata.image}`}
+            src={`/icon/${post.metadata.image}`}
             width={200}
             height={100}
             alt={post.metadata.title}
