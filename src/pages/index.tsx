@@ -1,11 +1,7 @@
-import type { NextPage } from 'next';
-import Head from 'next/head';
-import Image from 'next/image';
 import { FC } from 'react';
 import { PostsData } from '../../types';
 import PostCard from '../components/PostCard';
 import { loadPosts } from '../repositories';
-import styles from '../styles/Home.module.css';
 
 export const getStaticProps = async () => {
   const posts: Array<PostsData> = await loadPosts();
@@ -19,7 +15,7 @@ export const getStaticProps = async () => {
   };
 };
 
-const Home: FC< { posts: Array<PostsData> }>= ({ posts }) => {
+const Home: FC<{ posts: Array<PostsData> }> = ({ posts }) => {
   return (
     <div className="my-8">
       <div className="grid grid-cols-3 gap-4">
@@ -29,6 +25,6 @@ const Home: FC< { posts: Array<PostsData> }>= ({ posts }) => {
       </div>
     </div>
   );
-}
+};
 
 export default Home;
