@@ -1,3 +1,4 @@
+import { toc, Options, Result } from 'mdast-util-toc';
 import { NextSeo } from 'next-seo';
 import Image from 'next/image';
 import { createElement } from 'react';
@@ -8,7 +9,7 @@ import rehypeStringify from 'rehype-stringify';
 import remarkParse from 'remark-parse';
 import remarkPrism from 'remark-prism';
 import remarkRehype from 'remark-rehype';
-import remarkToc from 'remark-toc';
+import remarkToc, { Root } from 'remark-toc';
 import { unified } from 'unified';
 import { PostsData } from '../../../types';
 import { loadPosts } from '../../repositories';
@@ -29,16 +30,21 @@ type returnValueType = {
       slug: string;
     };
     content: string;
+    toc: string;
   };
 };
 
-export const getStaticProps = async ({
-  params,
-}: Props): Promise<returnValueType> => {
+const getToc = (options: Options) => {
+  return (node: Root) => {
+    const result: Result = toc(node, options);
+    if ( result.map === null ) { return; }
+    node.children = [ result.map, ];
+  };
+};
+
+export const getStaticProps = async ({ params, }: Props): Promise<returnValueType> => {
   const posts: Array<PostsData> = await loadPosts();
-  const file = posts.filter((v) => {
-    return v.metadata.slug === params.slug;
-  });
+  const file = posts.filter((v) => { return v.metadata.slug === params.slug; });
   const metadata = file[0].metadata;
   const content = file[0].content;
   const result = await unified()
@@ -54,7 +60,21 @@ export const getStaticProps = async ({
     .use(rehypeSlug)
     .use(rehypeStringify)
     .process(content);
-  return { props: { frontMatter: metadata, content: result.toString() } };
+
+  const toc = await unified()
+    .use(remarkParse)
+    .use(getToc, { tight: true, })
+    .use(remarkRehype)
+    .use(rehypeStringify)
+    .process(content);
+
+  return {
+    props: {
+      frontMatter: metadata,
+      content: result.toString(),
+      toc: toc.toString(),
+    },
+  };
 };
 
 export const getStaticPaths = async () => {
@@ -90,9 +110,10 @@ type PostProps = {
     slug: string;
   };
   content: string;
+  toc: string;
 };
 
-const Post = ({ frontMatter, content }: PostProps): JSX.Element => {
+const Post = ({ frontMatter, content, toc }: PostProps): JSX.Element => {
   return (
     <>
       <NextSeo
@@ -125,8 +146,16 @@ const Post = ({ frontMatter, content }: PostProps): JSX.Element => {
         <h1 className="mt-12">{frontMatter.title}</h1>
         <span>{frontMatter.date}</span>
         {/* <div dangerouslySetInnerHTML={{ __html: content }}></div> */}
+        <div className="grid grid-cols-12">
+          <div className="col-span-9">{toReactNode(content)}</div>
+          <div className="col-span-3">
+            <div
+              className="sticky top-[50px]"
+              dangerouslySetInnerHTML={{ __html: toc }}
+            ></div>
+          </div>
+        </div>
       </div>
-      {toReactNode(content)}
     </>
   );
 };
