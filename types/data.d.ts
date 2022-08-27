@@ -5,7 +5,8 @@ export type PostsData = {
         date: string,
         description: string,
         image: string,
-        slug: string
+        slug: string,
+        categories: Array<stirng>
     },
     content: string
 }

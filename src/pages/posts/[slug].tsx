@@ -13,6 +13,7 @@ import remarkToc, { Root } from 'remark-toc';
 import { unified } from 'unified';
 import { PostsData } from '../../../types';
 import { loadPosts } from '../../repositories';
+import Link from 'next/link';
 
 type Props = {
   params: {
@@ -108,6 +109,7 @@ type PostProps = {
     description: string;
     image: string;
     slug: string;
+    categories: Array<string>;
   };
   content: string;
   toc: string;
@@ -146,6 +148,15 @@ const Post = ({ frontMatter, content, toc }: PostProps): JSX.Element => {
         <h1 className="mt-12">{frontMatter.title}</h1>
         <span>{frontMatter.date}</span>
         {/* <div dangerouslySetInnerHTML={{ __html: content }}></div> */}
+        <div className="space-x-2">
+          {frontMatter.categories.map((category) => (
+            <span key={category}>
+              <Link href={`/categories/${category}`}>
+                <a>{category}</a>
+              </Link>
+            </span>
+          ))}
+        </div>
         <div className="grid grid-cols-12">
           <div className="col-span-9">{toReactNode(content)}</div>
           <div className="col-span-3">

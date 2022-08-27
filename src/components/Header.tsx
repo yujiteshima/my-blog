@@ -7,7 +7,12 @@ const Header = () => {
         <Link href="/">
           <a>SiteName</a>
         </Link>
-        <div>Link</div>
+        {/* <div>Link</div> */}
+        <div>
+          <Link href="/">
+            <a>AboutMe</a>
+          </Link>
+        </div>
       </div>
     </header>
   );
