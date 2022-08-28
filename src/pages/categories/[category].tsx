@@ -5,7 +5,7 @@ import { loadPosts } from '../../repositories';
 
 type Props = {
   params: {
-    category: [string];
+    category: string;
   };
 };
 
@@ -29,7 +29,7 @@ export const getStaticProps = async ({ params }: Props) => {
 export const getStaticPaths = async () => {
   // TODO: categoriesの取得方法をloadpostで取れるようにする。
   //       functionsでjsonに組み込むか、nextがのビルド時にloadpostで取得したjsonに対して操作するか。
-  const categories = ['react', 'nextjs', 'golang'];
+  const categories = ['react', 'nextjs', 'golang', 'nuxtjs'];
   const paths = categories.map((category) => ({ params: { category } }));
   return {
     paths,

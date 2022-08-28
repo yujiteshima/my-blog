@@ -29,6 +29,9 @@ type returnValueType = {
       description: string;
       image: string;
       slug: string;
+      categories: Array<string>;
+      blogType: string;
+      url: string;
     };
     content: string;
     toc: string;
@@ -86,9 +89,13 @@ export const getStaticProps = async ({
 
 export const getStaticPaths = async () => {
   const posts = await loadPosts();
-  const paths = posts.map((posts) => ({
+  // const myblogPosts = posts.filter((post) => {
+  //   console.log(post.metadata.blogType);
+  //   post.metadata.blogType === 'myblog';
+  // });
+  const paths = posts.map((post) => ({
     params: {
-      slug: posts.metadata.slug,
+      slug: post.metadata.slug,
     },
   }));
   return {
