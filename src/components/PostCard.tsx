@@ -3,9 +3,23 @@ import Link from 'next/link';
 import { FC } from 'react';
 import type { PostsData } from '../../types';
 
+const getLink = (post: PostsData): string => {
+  let res = '';
+  if (post.metadata.blogType === 'myblog') {
+    res = `/posts/${post.metadata.slug}`;
+  } else if (post.metadata.blogType !== 'myblog') {
+    res = post.metadata.url;
+  }
+  return res;
+};
+
 const PostCard: FC<{ key: string; post: PostsData }> = ({ post }) => {
+  const linkDestination = getLink(post);
   return (
-    <Link href={`/posts/${post.metadata.slug}`}>
+    <Link
+      href={linkDestination}
+      passHref={post.metadata.blogType === 'myblog' ? true : false}
+    >
       <a className="flex flex-row">
         <div className="border flex items-center">
           <Image

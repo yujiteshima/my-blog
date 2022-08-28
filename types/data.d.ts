@@ -6,7 +6,9 @@ export type PostsData = {
         description: string,
         image: string,
         slug: string,
-        categories: Array<stirng>
+        categories: Array<string>
+        blogType: string
+        url: string
     },
     content: string
 }
