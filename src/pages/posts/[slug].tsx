@@ -1,6 +1,7 @@
 import { toc, Options, Result } from 'mdast-util-toc';
 import { NextSeo } from 'next-seo';
 import Image from 'next/image';
+import Link from 'next/link';
 import { createElement } from 'react';
 import rehypeParse from 'rehype-parse';
 import rehypeReact from 'rehype-react';
@@ -13,7 +14,6 @@ import remarkToc, { Root } from 'remark-toc';
 import { unified } from 'unified';
 import { PostsData } from '../../../types';
 import { loadPosts } from '../../repositories';
-import Link from 'next/link';
 
 type Props = {
   params: {
@@ -38,14 +38,20 @@ type returnValueType = {
 const getToc = (options: Options) => {
   return (node: Root) => {
     const result: Result = toc(node, options);
-    if ( result.map === null ) { return; }
-    node.children = [ result.map, ];
+    if (result.map === null) {
+      return;
+    }
+    node.children = [result.map];
   };
 };
 
-export const getStaticProps = async ({ params, }: Props): Promise<returnValueType> => {
+export const getStaticProps = async ({
+  params,
+}: Props): Promise<returnValueType> => {
   const posts: Array<PostsData> = await loadPosts();
-  const file = posts.filter((v) => { return v.metadata.slug === params.slug; });
+  const file = posts.filter((v) => {
+    return v.metadata.slug === params.slug;
+  });
   const metadata = file[0].metadata;
   const content = file[0].content;
   const result = await unified()
@@ -64,7 +70,7 @@ export const getStaticProps = async ({ params, }: Props): Promise<returnValueTyp
 
   const toc = await unified()
     .use(remarkParse)
-    .use(getToc, { tight: true, })
+    .use(getToc, { tight: true })
     .use(remarkRehype)
     .use(rehypeStringify)
     .process(content);
