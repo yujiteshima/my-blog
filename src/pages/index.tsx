@@ -1,11 +1,11 @@
 import { FC } from 'react';
 import { PostsData } from '../../types';
 import PostCard from '../components/PostCard';
-import { loadPosts } from '../repositories';
+import { getPostsData } from '../repositories';
 
 export const getStaticProps = async () => {
-  const posts: Array<PostsData> = await loadPosts();
-  const sortedPosts: Array<PostsData> = posts.sort((postA, postB) =>
+  const getStorageData: Array<PostsData> = await getPostsData();
+  const sortedPosts: Array<PostsData> = getStorageData.sort((postA, postB) =>
     new Date(postA.metadata.date) > new Date(postB.metadata.date) ? -1 : 1,
   );
   return {

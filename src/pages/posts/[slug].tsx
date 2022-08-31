@@ -13,7 +13,7 @@ import remarkRehype from 'remark-rehype';
 import remarkToc, { Root } from 'remark-toc';
 import { unified } from 'unified';
 import { PostsData } from '../../../types';
-import { loadPosts } from '../../repositories';
+import { getPostsData } from '../../repositories';
 
 type Props = {
   params: {
@@ -51,7 +51,7 @@ const getToc = (options: Options) => {
 export const getStaticProps = async ({
   params,
 }: Props): Promise<returnValueType> => {
-  const posts: Array<PostsData> = await loadPosts();
+  const posts: Array<PostsData> = await getPostsData();
   const file = posts.filter((v) => {
     return v.metadata.slug === params.slug;
   });
@@ -88,7 +88,7 @@ export const getStaticProps = async ({
 };
 
 export const getStaticPaths = async () => {
-  const posts = await loadPosts();
+  const posts = await getPostsData();
   // const myblogPosts = posts.filter((post) => {
   //   console.log(post.metadata.blogType);
   //   post.metadata.blogType === 'myblog';
