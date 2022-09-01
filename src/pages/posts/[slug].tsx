@@ -7,6 +7,7 @@ import rehypeParse from 'rehype-parse';
 import rehypeReact from 'rehype-react';
 import rehypeSlug from 'rehype-slug';
 import rehypeStringify from 'rehype-stringify';
+import remarkGfm from 'remark-gfm';
 import remarkParse from 'remark-parse';
 import remarkPrism from 'remark-prism';
 import remarkRehype from 'remark-rehype';
@@ -66,6 +67,7 @@ export const getStaticProps = async ({
     .use(remarkToc, {
       heading: '目次だよ',
     })
+    .use(remarkGfm)
     .use(remarkRehype)
     .use(rehypeSlug)
     .use(rehypeStringify)
@@ -171,7 +173,7 @@ const Post = ({ frontMatter, content, toc }: PostProps): JSX.Element => {
           ))}
         </div>
         <div className="grid grid-cols-12">
-          <div className="col-span-9">{toReactNode(content)}</div>
+          <div className="col-span-9 markdown-body">{toReactNode(content)}</div>
           <div className="col-span-3">
             <div
               className="sticky top-[50px]"
