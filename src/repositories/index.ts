@@ -19,6 +19,6 @@ export const getPostsData = async (): Promise<Array<PostsData>> => {
   const textDecoder = new TextDecoder('utf-8');
   const text: Array<PostsData> = JSON.parse(
     textDecoder.decode(Uint8Array.from(file[0])),
-  ) as unknown as Array<PostsData>;
+  );
   return text;
 };
