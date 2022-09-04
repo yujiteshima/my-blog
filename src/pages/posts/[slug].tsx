@@ -15,6 +15,8 @@ import remarkToc, { Root } from 'remark-toc';
 import { unified } from 'unified';
 import { PostsData } from '../../../types';
 import { getPostsData } from '../../repositories';
+import markdownToHtml from 'zenn-markdown-html';
+import 'zenn-content-css';
 
 type Props = {
   params: {
@@ -58,20 +60,21 @@ export const getStaticProps = async ({
   });
   const metadata = file[0].metadata;
   const content = file[0].content;
-  const result = await unified()
-    .use(remarkParse)
-    .use(remarkPrism, {
-      /* options */
-      plugins: ['line-numbers'],
-    })
-    .use(remarkToc, {
-      heading: '目次だよ',
-    })
-    .use(remarkGfm)
-    .use(remarkRehype)
-    .use(rehypeSlug)
-    .use(rehypeStringify)
-    .process(content);
+  const result = markdownToHtml(content);
+  // const result = await unified()
+  //   .use(remarkParse)
+  //   .use(remarkPrism, {
+  //     /* options */
+  //     plugins: ['line-numbers'],
+  //   })
+  //   .use(remarkToc, {
+  //     heading: '目次だよ',
+  //   })
+  //   .use(remarkGfm)
+  //   .use(remarkRehype)
+  //   .use(rehypeSlug)
+  //   .use(rehypeStringify)
+  //   .process(content);
 
   const toc = await unified()
     .use(remarkParse)
@@ -173,7 +176,7 @@ const Post = ({ frontMatter, content, toc }: PostProps): JSX.Element => {
           ))}
         </div>
         <div className="grid grid-cols-12">
-          <div className="col-span-9 markdown-body">{toReactNode(content)}</div>
+          <div className="col-span-9 znc">{toReactNode(content)}</div>
           <div className="col-span-3">
             <div
               className="sticky top-[50px]"

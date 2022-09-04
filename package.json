@@ -28,7 +28,10 @@
     "remark-rehype": "^10.1.0",
     "remark-toc": "^8.0.1",
     "text-encoding": "^0.7.0",
-    "unified": "^10.1.2"
+    "unified": "^10.1.2",
+    "zenn-content-css": "^0.1.121",
+    "zenn-embed-elements": "^0.1.121",
+    "zenn-markdown-html": "^0.1.121"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.4",
