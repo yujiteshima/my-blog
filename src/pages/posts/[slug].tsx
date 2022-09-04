@@ -1,3 +1,4 @@
+import { JSDOM } from 'jsdom';
 import { toc, Options, Result } from 'mdast-util-toc';
 import { NextSeo } from 'next-seo';
 import Image from 'next/image';
@@ -13,9 +14,10 @@ import remarkPrism from 'remark-prism';
 import remarkRehype from 'remark-rehype';
 import remarkToc, { Root } from 'remark-toc';
 import { unified } from 'unified';
-import { PostsData } from '../../../types';
-import { getPostsData } from '../../repositories';
 import markdownToHtml from 'zenn-markdown-html';
+import { PostsData, TOCData } from '../../../types';
+import TableOfContent from '../../components/TableOfContent';
+import { getPostsData } from '../../repositories';
 import 'zenn-content-css';
 
 type Props = {
@@ -37,7 +39,7 @@ type returnValueType = {
       url: string;
     };
     content: string;
-    toc: string;
+    toc: TOCData[];
   };
 };
 
@@ -75,19 +77,30 @@ export const getStaticProps = async ({
   //   .use(rehypeSlug)
   //   .use(rehypeStringify)
   //   .process(content);
-
-  const toc = await unified()
-    .use(remarkParse)
-    .use(getToc, { tight: true })
-    .use(remarkRehype)
-    .use(rehypeStringify)
-    .process(content);
+  const domHtml = new JSDOM(result).window.document;
+  const elements = domHtml.querySelectorAll<HTMLElement>('h2, h3');
+  const tableOfContent: TOCData[] = [];
+  //TODO:forEach以外の方法で書きたい。
+  elements.forEach((element) => {
+    const level = element.tagName;
+    const title = element.innerHTML.split('</a> ')[1];
+    const href = '#' + element.id;
+    const record = { level: level, title: title, href: href };
+    tableOfContent.push(record);
+  });
+  console.log(tableOfContent);
+  // const toc = await unified()
+  //   .use(remarkParse)
+  //   .use(getToc, { tight: true })
+  //   .use(remarkRehype)
+  //   .use(rehypeStringify)
+  //   .process(content);
 
   return {
     props: {
       frontMatter: metadata,
       content: result.toString(),
-      toc: toc.toString(),
+      toc: tableOfContent,
     },
   };
 };
@@ -130,7 +143,7 @@ type PostProps = {
     categories: Array<string>;
   };
   content: string;
-  toc: string;
+  toc: TOCData[];
 };
 
 const Post = ({ frontMatter, content, toc }: PostProps): JSX.Element => {
@@ -154,7 +167,7 @@ const Post = ({ frontMatter, content, toc }: PostProps): JSX.Element => {
           ],
         }}
       />
-      <div className="prose prose-lg max-w-none">
+      <div className="prose-lg max-w-none">
         <div className="border">
           <Image
             src={`/icon/${frontMatter.image}`}
@@ -180,8 +193,10 @@ const Post = ({ frontMatter, content, toc }: PostProps): JSX.Element => {
           <div className="col-span-3">
             <div
               className="sticky top-[50px]"
-              dangerouslySetInnerHTML={{ __html: toc }}
-            ></div>
+              // dangerouslySetInnerHTML={{ __html: toc }}
+            >
+              <TableOfContent tableOfContent={toc} />
+            </div>
           </div>
         </div>
       </div>

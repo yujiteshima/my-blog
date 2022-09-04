@@ -1,0 +1,41 @@
+/* h3タグ相当目次のmarker */
+.ul_h2 .li_h2 {
+  position: relative;
+  padding-left: 25px;
+  @apply py-1 text-sm text-gray-500 hover:text-gray-800;
+}
+
+.ul_h2 .li_h2:before {
+  content: "";
+  top: 12px;
+  left: 2px;
+  width: 8px;
+  height: 8px;
+  position: absolute;
+  @apply rounded-lg bg-sky-500;
+}
+
+.ul_h2 .li_h2:hover:before {
+  @apply rounded-lg bg-sky-700;
+}
+
+/* h3タグ相当目次のmarker */
+.ul_h3 .li_h3 {
+  position: relative;
+  padding-left: 40px;
+  @apply py-1 text-sm text-gray-500 hover:text-gray-800;
+}
+
+.ul_h3 .li_h3:before {
+  content: "";
+  top: 14px;
+  left: 20px;
+  width: 4px;
+  height: 4px;
+  position: absolute;
+  @apply rounded-lg bg-sky-500;
+}
+
+.ul_h3 .li_h3:hover:before {
+  @apply rounded-lg bg-sky-700;
+}
