@@ -13,9 +13,9 @@ import remarkPrism from 'remark-prism';
 import remarkRehype from 'remark-rehype';
 import remarkToc, { Root } from 'remark-toc';
 import { unified } from 'unified';
+import markdownToHtml from 'zenn-markdown-html';
 import { PostsData } from '../../../types';
 import { getPostsData } from '../../repositories';
-import markdownToHtml from 'zenn-markdown-html';
 import 'zenn-content-css';
 
 type Props = {
@@ -86,7 +86,7 @@ export const getStaticProps = async ({
   return {
     props: {
       frontMatter: metadata,
-      content: result.toString(),
+      content: result,
       toc: toc.toString(),
     },
   };
