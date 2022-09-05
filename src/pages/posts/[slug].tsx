@@ -88,7 +88,6 @@ export const getStaticProps = async ({
     const record = { level: level, title: title, href: href };
     tableOfContent.push(record);
   });
-  console.log(tableOfContent);
   // const toc = await unified()
   //   .use(remarkParse)
   //   .use(getToc, { tight: true })
