@@ -148,6 +148,7 @@ type PostProps = {
 const Post = ({ frontMatter, content, toc }: PostProps): JSX.Element => {
   return (
     <>
+      {/* head */}
       <NextSeo
         title={frontMatter.title}
         description={frontMatter.description}
@@ -187,11 +188,11 @@ const Post = ({ frontMatter, content, toc }: PostProps): JSX.Element => {
             </span>
           ))}
         </div>
-        <div className="grid grid-cols-12">
-          <div className="col-span-9 znc">{toReactNode(content)}</div>
-          <div className="col-span-3">
+        <div className="flex flex-row">
+          <div className="p-4 col-span-9 znc rounded-xl bg-white">{toReactNode(content)}</div>
+          <div className="hidden md:block col-span-3 ml-3">
             <div
-              className="sticky top-[50px]"
+              className="sticky top-6"
               // dangerouslySetInnerHTML={{ __html: toc }}
             >
               <TableOfContent tableOfContent={toc} />
