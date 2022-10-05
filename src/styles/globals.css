@@ -6,3 +6,11 @@
 body {
   @apply bg-gray-100;
 }
+
+:target::before {
+  content: '';
+  display: block;
+  height: 72px;
+  margin-top: -72px;
+  visibility: hidden;
+}
